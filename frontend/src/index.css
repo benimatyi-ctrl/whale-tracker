@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* ── Terminal design tokens ─────────────────────────────────────────── */
+@theme {
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-term-bg: #050505;
+  --color-term-panel: #0c0c0e;
+  --color-term-border: #1f1f23;
+  --color-term-up: #10b981;   /* emerald-500 */
+  --color-term-down: #ef4444; /* red-500 */
+}
+
+html,
+body {
+  background: var(--color-term-bg);
+  color: #e4e4e7;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* No rounded corners anywhere — sharp terminal edges. */
+* {
+  border-radius: 0 !important;
+}
+
+/* Thin emerald scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #09090b; }
+::-webkit-scrollbar-thumb { background: #27272a; }
+::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+/* ── Pulse for freshly-arrived ledger rows ──────────────────────────── */
+@keyframes row-flash {
+  0%   { background-color: rgba(16, 185, 129, 0.22); }
+  100% { background-color: transparent; }
+}
+.row-new { animation: row-flash 2.4s ease-out 2; }
+
+/* Live dot in the header */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  50%      { opacity: 0.55; box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+}
+.live-dot { animation: live-pulse 1.8s ease-in-out infinite; }
+
+/* Scanline shimmer on panel headers (very subtle) */
+.panel-title {
+  letter-spacing: 0.14em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row-new, .live-dot { animation: none; }
+}
